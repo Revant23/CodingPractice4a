@@ -28,7 +28,7 @@ const initializeDBAndServer = async () => {
 
 initializeDBAndServer();
 
-//Get All Players Query
+//Get All Players Query  API1
 app.get("/players/", async (request, response) => {
   const getPlayersQuery = `
     SELECT 
@@ -39,7 +39,7 @@ app.get("/players/", async (request, response) => {
   response.send(PlayersArray);
 });
 
-//Post a Player Query
+//Post a Player Query API2
 
 app.post("/players/", async (request, response) => {
   const PlayerDetails = request.body;
@@ -60,8 +60,8 @@ app.post("/players/", async (request, response) => {
   response.send("Player Added to Team");
 });
 
-//Returns a player based on a player ID
-app.get("/players/:playerId/", async (request, response) => {
+//Returns a player based on a player ID API3
+app.get("/players/:player_id/", async (request, response) => {
   const { player_id } = request.params;
   const getPlayerQuery = `
     select 
@@ -73,3 +73,36 @@ app.get("/players/:playerId/", async (request, response) => {
   const Player = await db.get(getPlayerQuery);
   response.send(Player);
 });
+
+//API4
+app.put("/players/:player_id/", async (request, response) => {
+  const { player_id } = request.params;
+  const Player_details = request.body;
+  const { player_name, jersey_number, role } = Player_details;
+  const UpdatePlayerQuery = `
+    update
+    cricket_team
+    set 
+    player_name = '${player_name}',
+    jersey_number = '${jersey_number}',
+    role = '${role}'
+    where
+    player_id = ${player_id};
+    `;
+  await db.run(UpdatePlayerQuery);
+  response.send("Player Details Updated");
+});
+
+//API5
+app.delete("/players/:player_id/", async (request, response) => {
+  const { player_id } = request.params;
+  const deletePlayerQuery = `
+    DELETE FROM
+      cricket_team
+    WHERE
+      player_id = ${player_id};`;
+  await db.run(deletePlayerQuery);
+  response.send("Player Removed");
+});
+
+module.exports = app;

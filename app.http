@@ -1,8 +1,10 @@
+
 get http://localhost:4000/players/
 
 ###
 
 post http://localhost:4000/players/
+Content-Type: application/json
 
 {
   "player_name": "Vishal",
@@ -12,3 +14,16 @@ post http://localhost:4000/players/
 
 ###
 GET http://localhost:4000/players/1/
+
+###
+DELETE http://localhost:4000/players/12/ 
+
+###
+put http://localhost:4000/players/14/
+Content-Type: application/json
+
+{
+  "player_name": "Maneesh",
+  "jersey_number": 54,
+  "role": "All-rounder"
+}
