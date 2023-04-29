@@ -50,12 +50,26 @@ app.post("/players/", async (request, response) => {
     VALUES
       (
         '${player_name}',
-         ${jersey_number},
-         ${role}
+         '${jersey_number}',
+         '${role}'
         
       );`;
 
   const dbResponse = await db.run(addBookQuery);
   const player_id = dbResponse.lastID;
-  response.send({ player_id: player_id });
+  response.send("Player Added to Team");
+});
+
+//Returns a player based on a player ID
+app.get("/players/:playerId/", async (request, response) => {
+  const { player_id } = request.params;
+  const getPlayerQuery = `
+    select 
+    *
+    from 
+    cricket_team
+    where
+    player_id = ${player_id};`;
+  const Player = await db.get(getPlayerQuery);
+  response.send(Player);
 });

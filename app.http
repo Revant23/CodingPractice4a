@@ -9,3 +9,6 @@ post http://localhost:4000/players/
   "jersey_number": 17,
   "role": "Bowler"
 }
+
+###
+GET http://localhost:4000/players/1/
